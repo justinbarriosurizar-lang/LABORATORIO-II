@@ -2,12 +2,14 @@
 
 ## 1 y 2. Clases, propiedades, métodos y clases.
 
-### Clase: `Parque`
+### Modelo
+
+#### Clase: `Parque`
 * **Propiedades:**
   * `private String nombre`: Nombre del parque.
   * `private String codigo`: Código de identificación.
   * `private String encargado`: Nombre del encargado.
-  * `private PuntoAcceso[] puntosAcceso`: Arreglo básico de tamaño fijo.
+  * `private PuntoAcceso[] puntosAcceso`: Arreglo básico de tamaño fijo (5 posiciones).
   * `private ArrayList<Visitante> visitantes`: Colección dinámica de visitantes.
 * **Métodos:**
   * `public boolean habilitarPuntoAcceso(int posicion, PuntoAcceso punto)`
@@ -17,33 +19,76 @@
   * `public Visitante buscarVisitante(String codigoEntrada)`
   * `public boolean eliminarVisitante(String codigoEntrada)`
   * `public PuntoAcceso calcularPuntoAccesoMayorCapacidad()`
+  * `public Visitante calcularVisitanteMayorPuntos()`
+  * `public Visitante calcularVisitanteMayorAtracciones()`
   * `public double calcularPromedioEdad()`
+  * `public int contarPuntosAccesoHabilitados()`
+  * `public int contarEspaciosDisponiblesPuntosAcceso()`
 
 ---
 
-### Clase: `PuntoAcceso`
+#### Clase: `PuntoAcceso`
 * **Propiedades:**
   * `private String codigo`: Código del punto de acceso.
   * `private String nombre`: Nombre descriptivo.
   * `private String ubicacion`: Ubicación física.
   * `private int capacidadMaximaPorHora`: Capacidad máxima por hora (debe ser > 0).
-  * `private String estado`: Estado actual (ej. "Abierto", "Cerrado").
+  * `private String estado`: Estado actual (ej. "Habilitado", "Cerrado").
 * **Métodos:**
-  * Constructores con validaciones de negocio.
+  * Constructores, *Getters* y *Setters* con validaciones de negocio.
   * `public String toString()`: Representación en texto del punto de acceso.
 
 ---
 
-### Clase: `Visitante`
+#### Clase: `Visitante`
 * **Propiedades:**
-  * `private String codigoEntrada`: Identificador de entrada.
+  * `private String codigoEntrada`: Identificador único de entrada.
   * `private String nombre`: Nombre del visitante.
   * `private int edad`: Edad del visitante (debe ser > 0).
   * `private int atraccionesVisitadas`: Cantidad de atracciones (debe ser >= 0).
   * `private int puntosAcumulados`: Puntos acumulados (debe ser >= 0).
 * **Métodos:**
-  * Constructores con validaciones de negocio.
+  * Constructores, *Getters* y *Setters* con validaciones de negocio.
   * `public String toString()`: Representación en texto del visitante.
+
+---
+
+### Vista
+
+#### Clase: `Vista`
+* **Propiedades:**
+  * `private Scanner scanner`: Instancia para la captura de entradas por consola.
+* **Métodos:**
+  * `public int mostrarMenu()`: Despliega las 13 opciones y solicita la elección del usuario.
+  * `public String pedirTexto(String mensaje)`: Muestra un mensaje y captura una cadena.
+  * `public int pedirEntero(String mensaje)`: Captura y valida un entero (maneja `InputMismatchException` limpiando el búfer con `scanner.nextLine()`).
+  * `public void mostrarMensaje(String mensaje)`: Muestra mensajes informativos o de éxito.
+  * `public void mostrarError(String mensaje)`: Muestra mensajes de error o excepciones capturadas.
+  * `public void mostrarReporte(String reporte)`: Imprime el reporte general consolidado del parque.
+
+---
+
+### Controlador
+
+#### Clase: `ControladorParque` (Driver Program)
+* **Propiedades:**
+  * `private Parque parque`: Instancia activa del modelo.
+  * `private Vista vista`: Instancia de la vista para interacción con el usuario.
+* **Métodos:**
+  * `public static void main(String[] args)`: Punto de entrada principal que inicia la ejecución.
+  * `public void ejecutar()`: Bucle principal del sistema que procesa las opciones del menú.
+  * `private void inicializarParque()`: Solicita los datos iniciales e instancia un nuevo `Parque`.
+  * `private void habilitarPuntoAcceso()`: Flujo interactivo para ingresar y validar un nuevo `PuntoAcceso`.
+  * `private void consultarPuntosAcceso()`: Solicita a la vista listar los puntos habilitados.
+  * `private void consultarPuntoAccesoEspecifico()`: Lee la posición deseada y muestra la información.
+  * `private void modificarPuntoAcceso()`: Solicita posición y nuevos datos para actualizar la capacidad/estado.
+  * `private void cerrarPuntoAcceso()`: Solicita posición y remueve el punto del arreglo.
+  * `private void registrarVisitante()`: Solicita datos y agrega un nuevo `Visitante` al `ArrayList`.
+  * `private void consultarVisitantes()`: Despliega el listado completo de visitantes.
+  * `private void buscarVisitante()`: Solicita el código y muestra las coincidencias.
+  * `private void modificarVisitante()`: Actualiza la información de un visitante registrado.
+  * `private void eliminarVisitante()`: Solicita el código de entrada y lo elimina de la colección.
+  * `private void mostrarReporteParque()`: Obtiene los cálculos del modelo y solicita a la vista mostrarlos.
 
 ---
 
